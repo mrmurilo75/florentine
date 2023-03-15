@@ -11,11 +11,7 @@ from django.urls import reverse
 from florentine.users.forms import UserAdminChangeForm
 from florentine.users.models import User
 from florentine.users.tests.factories import UserFactory
-from florentine.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from florentine.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
