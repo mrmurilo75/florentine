@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=florentine
+POSTGRES_USER=twaofLSoYsuGXNouYvVLLYfGqhatAHqj
+POSTGRES_PASSWORD=klkhDrCsh5tP9v3182p9q2irXZy7RmEehzsLOS3TpghgB0MZKOcTCqyfQP6Qt9Im
