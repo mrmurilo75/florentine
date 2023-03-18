@@ -10,6 +10,7 @@ User = get_user_model()
 class UserAdminChangeForm(admin_forms.UserChangeForm):
     class Meta(admin_forms.UserChangeForm.Meta):
         model = User
+        fields = ("email", "name")
 
 
 class UserAdminCreationForm(admin_forms.UserCreationForm):
@@ -18,12 +19,11 @@ class UserAdminCreationForm(admin_forms.UserCreationForm):
     To change user signup, see UserSignupForm and UserSocialSignupForm.
     """
 
-    class Meta(admin_forms.UserCreationForm.Meta):
-        model = User
+    error_messages = {"email": {"unique": _("This email has already been used.")}}
 
-        error_messages = {
-            "username": {"unique": _("This username has already been taken.")}
-        }
+    class Meta:
+        model = User
+        fields = ("email",)  # Override from username
 
 
 class UserSignupForm(SignupForm):
