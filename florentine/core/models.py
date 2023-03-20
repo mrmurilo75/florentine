@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 
 
@@ -96,3 +96,31 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.date})"
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        with transaction.atomic(using=using):
+            account = (
+                Account.objects.using(using).select_for_update().get(id=self.account_id)
+            )
+            if self.id:
+                previous = (
+                    Transaction.objects.using(using).select_for_update().get(id=self.id)
+                )
+                account.current_value += self.value - previous.value
+            else:
+                account.current_value += self.value
+
+            super().save(force_insert, force_update, using, update_fields)
+            account.save()
+
+    def delete(self, using=None, keep_parents=False):
+        with transaction.atomic(using=using):
+            account = (
+                Account.objects.using(using).select_for_update().get(id=self.account_id)
+            )
+            account.current_value -= self.value
+
+            super().delete(using, keep_parents)
+            account.save()
