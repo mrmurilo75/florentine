@@ -1,5 +1,6 @@
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
+from allauth.utils import generate_unique_username
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -24,6 +25,10 @@ class UserAdminCreationForm(admin_forms.UserCreationForm):
     class Meta:
         model = User
         fields = ("email",)  # Override from username
+
+    def clean(self):
+        super().clean()
+        self.instance.username = generate_unique_username([self.instance.email, "user"])
 
 
 class UserSignupForm(SignupForm):
