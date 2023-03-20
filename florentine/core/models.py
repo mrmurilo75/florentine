@@ -61,7 +61,7 @@ class Category(OwnedModel):
         return self.name
 
 
-class Transaction(OwnedModel):
+class Transaction(models.Model):
     title = models.CharField(
         _("Title"),
         max_length=255,

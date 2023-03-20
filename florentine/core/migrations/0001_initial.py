@@ -52,7 +52,6 @@ class Migration(migrations.Migration):
                 ('value', models.FloatField(verbose_name='Value')),
                 ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='%(class)ss', to='core.account', verbose_name='Account')),
                 ('category', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.category')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='%(class)ss', to=settings.AUTH_USER_MODEL, verbose_name='Owner')),
             ],
             options={
                 'verbose_name': 'Transaction',
