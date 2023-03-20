@@ -35,6 +35,15 @@ class Account(OwnedModel):
 
         unique_together = ["owner", "name"]
 
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        super().clean()
+
+        if self.current_value is None:
+            self.current_value = self.initial_value
+
 
 class Category(OwnedModel):
     name = models.CharField(
@@ -47,6 +56,9 @@ class Category(OwnedModel):
         verbose_name_plural = _("Categories")
 
         unique_together = ["owner", "name"]
+
+    def __str__(self):
+        return self.name
 
 
 class Transaction(OwnedModel):
@@ -81,3 +93,6 @@ class Transaction(OwnedModel):
     class Meta:
         verbose_name = _("Transaction")
         verbose_name_plural = _("Transactions")
+
+    def __str__(self):
+        return f"{self.title} ({self.date})"
