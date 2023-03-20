@@ -8,7 +8,6 @@ class OwnedModel(models.Model):
         on_delete=models.CASCADE,
         related_name="%(class)ss",
         verbose_name=_("Owner"),
-        editable=False,
     )
 
     class Meta:
