@@ -1,3 +1,4 @@
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 
@@ -124,3 +125,48 @@ class Transaction(models.Model):
 
             super().delete(using, keep_parents)
             account.save()
+
+    @property
+    def is_deposit(self):
+        return self.value > 0
+
+    @property
+    def is_withdraw(self):
+        return self.value > 0
+
+
+class Transfer(models.Model):
+    transaction_in = models.OneToOneField(
+        Transaction,
+        on_delete=models.PROTECT,
+        related_name="%(class)s_in",
+        verbose_name=_("Transfer Deposit"),
+    )
+    transaction_out = models.OneToOneField(
+        Transaction,
+        on_delete=models.PROTECT,
+        related_name="%(class)s_out",
+        verbose_name=_("Transfer Withdraw"),
+    )
+
+    def clean(self):
+        super().clean()
+
+        errors = dict()
+        if not self.transaction_in.is_deposit:
+            errors["transaction_in"] = ValidationError(
+                _("Transfer Deposit must be a deposit."), code="invalid"
+            )
+        if not self.transaction_out.is_withdraw:
+            errors["transaction_in"] = ValidationError(
+                _("Transfer Withdraw must be a withdraw."), code="invalid"
+            )
+        if not self.transaction_in.value == -self.transaction_out.value:
+            errors[NON_FIELD_ERRORS] = ValidationError(
+                f"Expected transactions of transfer to have inverse values, "
+                f"but got {self.transaction_in.value} and {self.transaction_out.value} .",
+                code="invalid",
+            )
+
+        if errors:
+            raise ValidationError(errors)
