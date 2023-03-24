@@ -1,0 +1,48 @@
+-   model: core.account
+    pk: 1
+    fields:
+        owner: 6
+        name: Acc A 0
+        initial_value: 0.0
+        current_value: 0.0
+-   model: core.account
+    pk: 2
+    fields:
+        owner: 6
+        name: Acc A 100
+        initial_value: 100.0
+        current_value: 100.0
+-   model: core.account
+    pk: 3
+    fields:
+        owner: 7
+        name: Acc B 0
+        initial_value: 0.0
+        current_value: 0.0
+-   model: core.account
+    pk: 4
+    fields:
+        owner: 7
+        name: Acc B -100
+        initial_value: -100.0
+        current_value: -100.0
+-   model: core.category
+    pk: 1
+    fields:
+        owner: 6
+        name: Cat A 1
+-   model: core.category
+    pk: 2
+    fields:
+        owner: 6
+        name: Cat A 2
+-   model: core.category
+    pk: 3
+    fields:
+        owner: 7
+        name: Cat B 1
+-   model: core.category
+    pk: 4
+    fields:
+        owner: 7
+        name: Cat B 2
